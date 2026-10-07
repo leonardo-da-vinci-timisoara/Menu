@@ -16,6 +16,72 @@ const RO=[
 ['Desert',[['Panna Cotta cu fructe de pădure','150 g','19 lei','Smântână, gelatină, zahăr, aromă de vanilie, fructe de pădure'],['Lava Cake cu înghețată','200 g','25 lei','Ciocolată amăruie, unt, zahăr pudră, făină, gălbenușuri, ouă, vanilie'],['Clătite cu ciocolată','250 g','22 lei','Făină, ouă, lapte, ciocolată, vanilie, zahăr'],['Clătite cu miere și nucă','250 g','23 lei','Făină, ouă, lapte, ciocolată, vanilie, zahăr'],['Clătite cu brânză dulce','250 g','25 lei','Făină, ouă, lapte, brânză dulce de vaci, vanilie, zahăr, smântână'],['Papanași','250 g','25 lei','Brânză de vaci, griș, zahăr, ouă, smântână, dulceață de fructe de pădure']]],
 ['Diverse',[['Pâine','','2 lei',''],['Pâine prăjită','','3 lei',''],['Smântână','','6 lei',''],['Ardei iute','','3 lei',''],['Suplimente','','5 lei','Cașcaval / telemea / măsline / maioneză / lămâie / miere']]]];
 const ENNAMES=['Breakfast','Salads','Snacks & platters','Full menu','Soups','Meat','Fish','Pasta & Risotto','Pizza','Sides','Side salads & sauces','Dessert','Extras'];let lang='ro';function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-')}
-function render(){const app=document.getElementById('app'),nav=document.getElementById('nav');app.innerHTML='';nav.innerHTML='';RO.forEach((sec,i)=>{let title=lang==='ro'?sec[0]:ENNAMES[i];let id='s'+i;nav.innerHTML+=`<a href="#${id}">${title}</a>`;let html=`<section class="section" id="${id}"><h2>${title}</h2>`;sec[1].forEach(x=>html+=`<div class="item"><div class="top">${x[4]?`<img src="${encodeURI(x[4])}" alt="${x[0]}" style="width:120px;height:90px;object-fit:cover;border-radius:10px;margin-right:12px;">`:''}<div class="name">${x[0]}</div><div class="meta">${x[1]} ${x[2]}</div></div>${x[3]?`<div class="desc">${x[3]}</div>`:''}</div>`);html+='</section>';app.innerHTML+=html});app.innerHTML+=`<div class="note">${lang==='ro'?'Unele preparate pot conține alergeni. Pentru informații suplimentare, vă rugăm să întrebați personalul. * Ingrediente provenite din materii prime congelate.':'Some dishes may contain allergens. Please ask staff for additional information. * Ingredients from frozen raw materials.'}</div>`}
+function render(){
+  const app=document.getElementById('app'),
+        nav=document.getElementById('nav');
+
+  app.innerHTML='';
+  nav.innerHTML='';
+
+  RO.forEach((sec,i)=>{
+    let title=lang==='ro'?sec[0]:ENNAMES[i];
+    let id='s'+i;
+
+    nav.innerHTML+=`<a href="#${id}">${title}</a>`;
+
+    let html=`<section class="section" id="${id}"><h2>${title}</h2>`;
+
+    sec[1].forEach(x=>{
+      html+=`
+        <div class="item">
+          <div style="display:flex;align-items:flex-start;gap:14px;">
+
+            ${x[4]?`
+              <img
+                src="${encodeURI(x[4])}"
+                alt="${x[0]}"
+                style="
+                  width:120px;
+                  height:90px;
+                  object-fit:cover;
+                  border-radius:10px;
+                  flex-shrink:0;
+                ">
+            `:''}
+
+            <div style="flex:1;min-width:0;">
+
+              <div style="display:flex;justify-content:space-between;gap:15px;align-items:flex-start;">
+                <div class="name">${x[0]}</div>
+                <div class="meta" style="white-space:nowrap;">
+                  ${x[1]} ${x[2]}
+                </div>
+              </div>
+
+              ${x[3]?`
+                <div class="desc" style="margin-top:6px;">
+                  ${x[3]}
+                </div>
+              `:''}
+
+            </div>
+
+          </div>
+        </div>`;
+
+    });
+
+    html+='</section>';
+    app.innerHTML+=html;
+  });
+
+  app.innerHTML+=`
+    <div class="note">
+      ${lang==='ro'
+        ?'Unele preparate pot conține alergeni. Pentru informații suplimentare, vă rugăm să întrebați personalul. * Ingrediente provenite din materii prime congelate.'
+        :'Some dishes may contain allergens. Please ask staff for additional information. * Ingredients from frozen raw materials.'
+      }
+    </div>`;
+}
 robtn.onclick=()=>{lang='ro';robtn.className='on';enbtn.className='';render()};enbtn.onclick=()=>{lang='en';enbtn.className='on';robtn.className='';render()};render();
 </script></body></html>
